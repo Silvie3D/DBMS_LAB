@@ -1,0 +1,53 @@
+1.
+START TRANSACTION;
+INSERT INTO Employee VALUES (201,'Neeraj','Analyst',101,'2022-07-18',55000,2000,20,'neera@gmail.com');
+COMMIT;
+SELECT * FROM Employee;
+
+2.
+START TRANSACTION;
+UPDATE Employee SET salary = salary + 10000 WHERE empno = 101;
+ROLLBACK;
+SELECT empno, salary FROM Employee WHERE empno = 101;
+
+3.
+START TRANSACTION;
+INSERT INTO Department VALUES (50,'Research','Delhi'),
+(60,'Support','Kolkata');
+SAVEPOINT sp1;
+INSERT INTO Department VALUES (70,'Logistics','Ahmedabad');
+ROLLBACK TO sp1;
+COMMIT;
+SELECT * FROM Department;
+
+4.
+START TRANSACTION;
+DELETE FROM Employee WHERE empno = 103;
+COMMIT;
+SELECT * FROM Employee;
+
+5.
+START TRANSACTION;
+UPDATE Employee SET commission = 8000 WHERE empno = 102;
+ROLLBACK;
+SELECT empno, commission FROM Employee WHERE empno = 102;
+
+6.
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'user123';
+SELECT User, Host FROM mysql.user;
+
+7.
+GRANT SELECT ON Employee.Employee TO 'user1'@'localhost';
+SHOW GRANTS FOR 'user1'@'localhost';
+
+8.
+GRANT INSERT, UPDATE ON Employee.Department TO 'user1'@'localhost';
+SHOW GRANTS FOR 'user1'@'localhost';
+
+9.
+REVOKE UPDATE ON Employee.Department FROM 'user1'@'localhost';
+SHOW GRANTS FOR 'user1'@'localhost';
+
+10.
+GRANT ALL PRIVILEGES ON Employee.SalaryGrade TO 'user1'@'localhost';
+SHOW GRANTS FOR 'user1'@'localhost';

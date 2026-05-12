@@ -1,0 +1,69 @@
+1. SELECT * FROM Department;
+   SELECT * FROM Employee;
+   SELECT * FROM SalaryGrade;
+
+2. SELECT e.ename, d.deptname FROM Employee e JOIN Department d ON e.deptno = d.deptno;
+
+3. SELECT * FROM Department d WHERE location IN ('New York','Boston') AND deptno NOT IN (SELECT deptno FROM Employee);
+
+4. SELECT d.deptname, AVG(e.salary) FROM Employee e JOIN Department d ON e.deptno = d.deptno GROUP BY d.deptname;
+
+5. SELECT e.* FROM Employee e JOIN Department d ON e.deptno = d.deptno WHERE d.location='Dallas';
+
+6. SELECT deptname FROM Department NATURAL JOIN Employee GROUP BY deptname HAVING COUNT(*)>1;
+
+7. SELECT e.ename, d.deptname FROM Employee e, Department d WHERE e.deptno=d.deptno AND d.location LIKE '%o%';
+
+8. SELECT ename, salary, salary*0.15 AS raise, salary*1.15 AS new_salary FROM Employee;
+
+9. SELECT * FROM Employee WHERE deptno IN (20,30) AND salary>1500;
+
+10. SELECT * FROM Employee WHERE deptno NOT IN (SELECT deptno FROM Department);
+
+11. SELECT * FROM Employee WHERE job NOT IN ('SALESMAN','CLERK');
+
+12. SELECT e.ename, e.salary, s.grade FROM Employee e LEFT JOIN SalaryGrade s ON e.salary BETWEEN s.lowsalary AND s.highsalary;
+
+13. SELECT e.empno, d.deptno FROM Employee e LEFT JOIN Department d ON e.deptno=d.deptno UNION SELECT e.empno, d.deptno FROM Employee e RIGHT JOIN Department d ON e.deptno=d.deptno;
+
+14. SELECT deptno, COUNT(*) FROM Employee GROUP BY deptno;
+
+15. SELECT e.* FROM Employee e JOIN Employee m ON e.managerid=m.empno WHERE e.salary>m.salary;
+
+16. SELECT * FROM Employee WHERE deptno NOT IN (SELECT deptno FROM Department);
+
+17. SELECT DISTINCT managerid FROM Employee WHERE managerid NOT IN (SELECT empno FROM Employee) AND managerid IS NOT NULL;
+
+18. SELECT * FROM Employee NATURAL JOIN Department WHERE hiredate>'1991-04-01';
+
+19. SELECT ename, deptno FROM Employee e1 WHERE salary=(SELECT MAX(salary) FROM Employee e2 WHERE e1.deptno=e2.deptno);
+
+20. SELECT e.ename, d.deptname, d.location FROM Employee e JOIN Department d ON e.deptno=d.deptno WHERE job='SALESMAN';
+
+21. SELECT e.* FROM Employee e JOIN Employee m ON e.managerid=m.empno WHERE e.hiredate<m.hiredate;
+
+22. SELECT deptno,'No Employees' AS type FROM Department WHERE deptno NOT IN (SELECT deptno FROM Employee) UNION SELECT deptno,'No Department' FROM Employee WHERE deptno NOT IN (SELECT deptno FROM Department);
+
+23. SELECT MAX(salary), MIN(salary), AVG(salary) FROM Employee;
+
+24. SELECT deptno, MIN(hiredate), MAX(hiredate) FROM Employee GROUP BY deptno;
+
+25. SELECT deptno FROM Department UNION SELECT deptno FROM Employee;
+
+26. SELECT deptno FROM Employee GROUP BY deptno HAVING MIN(hiredate)<'1991-05-01' AND MAX(hiredate)>='1991-05-01';
+
+27. SELECT job FROM Employee WHERE deptno=30 AND job NOT IN (SELECT job FROM Employee WHERE deptno=20);
+
+28. SELECT ename, salary*12 AS annual_salary FROM Employee;
+
+29. SELECT e.ename, s.grade FROM Employee e, SalaryGrade s WHERE e.salary BETWEEN s.lowsalary AND s.highsalary;
+
+30. SELECT * FROM Employee WHERE hiredate BETWEEN '1991-01-01' AND '1991-06-30';
+
+31. SELECT * FROM Employee WHERE job NOT IN ('CLERK','SALESMAN','MANAGER');
+
+32. SELECT * FROM Employee WHERE salary IS NOT NULL AND commission IS NOT NULL;
+
+33. SELECT * FROM Employee WHERE ename LIKE 'S%';
+
+34. SELECT e1.* FROM Employee e1 WHERE EXISTS (SELECT 1 FROM Employee e2 WHERE e1.deptno=e2.deptno AND e1.empno<>e2.empno);

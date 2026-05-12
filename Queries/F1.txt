@@ -1,0 +1,56 @@
+1. 
+CREATE DATABASE Employee;
+USE Employee;
+
+2. 
+CREATE TABLE Department (
+    deptno INT PRIMARY KEY,
+    deptname VARCHAR(15) NOT NULL,
+    location VARCHAR(20)
+);
+
+3. 
+CREATE TABLE Employee (
+    empno INT PRIMARY KEY,
+    ename VARCHAR(30) NOT NULL,
+    job VARCHAR(10),
+    managerid INT,
+    hiredate DATE,
+    salary INT,
+    commission INT,
+    deptno INT,
+    FOREIGN KEY (deptno) REFERENCES Department(deptno)
+);
+
+4. 
+CREATE TABLE SalaryGrade (
+    grade INT PRIMARY KEY,
+    lowsalary INT,
+    highsalary INT
+);
+
+5.
+DESC Department;
+DESC Employee;
+DESC SalaryGrade;
+
+
+6. 
+ALTER TABLE Employee ADD email VARCHAR(40);
+DESC Employee;
+
+7. 
+ALTER TABLE Employee MODIFY salary BIGINT;
+DESC Employee;
+
+8. 
+ALTER TABLE Department RENAME COLUMN location TO dept_location;
+DESC Department;
+
+9. 
+TRUNCATE TABLE Department;
+SELECT * FROM Department;
+
+10.
+DROP TABLE SalaryGrade;
+SELECT * FROM SalaryGrade;

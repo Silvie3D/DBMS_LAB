@@ -1,0 +1,121 @@
+1.
+use inventory
+
+2.
+db.products.insertMany([
+{
+ "_id": 1,
+ "name": "xPhone",
+ "price": 799,
+ "releaseDate": ISODate("2011-05-14"),
+ "spec": { "ram": 4, "screen": 6.5, "cpu": 2.66 },
+ "color": ["white", "black"],
+ "storage": [64, 128, 256]
+},
+{
+ "_id": 2,
+ "name": "xTablet",
+ "price": 899,
+ "releaseDate": ISODate("2011-09-01"),
+ "spec": { "ram": 16, "screen": 9.5, "cpu": 3.66 },
+ "color": ["white", "black", "purple"],
+ "storage": [128, 256, 512]
+},
+{
+ "_id": 3,
+ "name": "SmartTablet",
+ "price": 899,
+ "releaseDate": ISODate("2015-01-14"),
+ "spec": { "ram": 12, "screen": 9.7, "cpu": 3.66 },
+ "color": ["blue"],
+ "storage": [16, 64, 128]
+},
+{
+ "_id": 4,
+ "name": "SmartPad",
+ "price": 699,
+ "releaseDate": ISODate("2020-05-14"),
+ "spec": { "ram": 8, "screen": 9.7, "cpu": 1.66 },
+ "color": ["white", "orange", "gold", "gray"],
+ "storage": [128, 256, 1024]
+},
+{
+ "_id": 5,
+ "name": "SmartPhone",
+ "price": 599,
+ "releaseDate": ISODate("2022-09-14"),
+ "spec": { "ram": 4, "screen": 9.7, "cpu": 1.66 },
+ "color": ["white", "orange", "gold", "gray"],
+ "storage": [128, 256]
+}
+])
+
+3.
+db.products.find()
+
+4.
+db.products.find({ _id: 2 })
+
+5.
+db.products.findOne()
+
+6.
+db.products.find({ _id: 5 }, { name: 1, price: 1, _id: 0 })
+
+7.
+db.products.find({ price: 899 })
+
+8.
+db.products.find({ "spec.ram": 4 })
+
+9.
+db.products.find({ color: "black" })
+
+10.
+db.products.find({ releaseDate: ISODate("2020-05-14") })
+
+11.
+db.products.find({ price: { $lt: 799 } })
+
+12.
+db.products.find({ "spec.screen": { $lt: 7 } })
+
+13.
+db.products.find({ storage: { $lt: 128 } })
+
+14.
+db.products.find({ price: { $in: [599, 799] } })
+
+15.
+db.products.find({ color: { $in: ["black", "white"] } })
+
+16.
+db.products.find({ price: { $in: [599, 799] } })
+
+17.
+db.products.find({ color: { $nin: ["black", "white"] } })
+
+18.
+db.products.find({
+ price: 899,
+ color: { $in: ["white", "black"] }
+})
+
+19.
+db.products.find({
+ $or: [
+  { price: { $lt: 699 } },
+  { price: { $gt: 799 } }
+ ]
+})
+
+20.
+db.products.updateOne(
+ { _id: 3 },
+ { $set: { name: "SmartScreen" } }
+)
+db.products.find()
+
+21.
+db.products.deleteOne({ _id: 5 })
+db.products.find()

@@ -1,0 +1,84 @@
+1.
+SELECT * FROM Employee;
+
+2.
+SELECT ename, salary FROM Employee;
+
+3.
+SELECT * FROM Employee WHERE deptno = 10;
+
+4.
+SELECT DISTINCT job FROM Employee;
+
+5.
+SELECT * FROM Employee WHERE salary BETWEEN 30000 AND 60000;
+
+6.
+SELECT * FROM Employee WHERE deptno = 20 AND salary > 50000;
+
+7.
+SELECT * FROM Employee WHERE job = 'Manager' OR salary > 70000;
+
+8.
+SELECT * FROM Employee WHERE hiredate BETWEEN '2020-01-01' AND '2022-12-31';
+
+9.
+SELECT deptno, COUNT(*) AS total_employees FROM Employee GROUP BY deptno;
+
+10.
+SELECT deptno, AVG(salary) AS avg_salary FROM Employee GROUP BY deptno;
+
+11.
+SELECT job, MAX(salary) AS max_salary FROM Employee GROUP BY job;
+
+12.
+SELECT deptno, SUM(salary) AS total_salary FROM Employee GROUP BY deptno;
+
+13.
+SELECT deptno, COUNT(*) FROM Employee GROUP BY deptno HAVING COUNT(*) > 2;
+
+14.
+SELECT * FROM Employee WHERE deptno IN (SELECT deptno FROM Employee GROUP BY deptno HAVING AVG(salary) >50000);
+
+15.
+SELECT job FROM Employee GROUP BY job HAVING MAX(salary) > 80000;
+
+16.
+SELECT deptno FROM Employee GROUP BY deptno HAVING SUM(salary) > 150000;
+
+17.
+SELECT * FROM Employee ORDER BY ename ASC;
+
+18.
+SELECT * FROM Employee ORDER BY salary DESC;
+
+19.
+SELECT * FROM Employee ORDER BY deptno ASC, salary DESC;
+
+20.
+SELECT * FROM Employee ORDER BY hiredate DESC;
+
+21.
+SELECT * FROM Employee WHERE salary > (SELECT AVG(salary) FROM Employee);
+
+22.
+SELECT * FROM Employee e WHERE salary > (SELECT AVG(salary) FROM Employee WHERE deptno = e.deptno);
+
+23.
+SELECT e.* FROM Employee where deptno = (select deptno from Department where deptname='HR');
+
+24.
+SELECT * FROM Employee WHERE salary = (SELECT MAX(salary) FROM Employee);
+
+25.
+CREATE VIEW EmployeeBasicView AS SELECT empno, ename, deptno FROM Employee;
+
+26.
+SELECT * FROM EmployeeBasicView;
+
+27.
+CREATE VIEW DeptAvgSalaryView AS SELECT deptno, AVG(salary) AS avg_salary FROM Employee GROUP BY deptno;
+
+28.
+DROP VIEW DeptAvgSalaryView;
+DROP VIEW EmployeeBasicView;

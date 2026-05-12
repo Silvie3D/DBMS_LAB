@@ -1,0 +1,145 @@
+1. 
+DELIMITER //
+
+CREATE TRIGGER trg_before_insert_emp
+BEFORE INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    IF NEW.hiredate IS NULL THEN
+        SET NEW.hiredate = CURDATE();
+    END IF;
+END//
+
+DELIMITER ;
+
+SHOW TRIGGERS LIKE 'Employee';
+
+SELECT * FROM Employee WHERE empno = 8000;
+
+INSERT INTO Employee VALUES (8000,'TEST','CLERK',7902,NULL,1000,NULL,20);
+
+SELECT * FROM Employee WHERE empno = 8000;
+
+
+
+2.
+DELIMITER //
+
+CREATE TRIGGER trg_before_insert_salesman
+BEFORE INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    IF NEW.job = 'SALESMAN' AND NEW.commission IS NULL THEN
+        SET NEW.commission = NEW.salary * 0.10;
+    END IF;
+END//
+
+DELIMITER ;
+
+SHOW TRIGGERS LIKE 'Employee';
+
+SELECT * FROM Employee WHERE empno = 8001;
+
+INSERT INTO Employee VALUES (8001,'TEST2','SALESMAN',7698,'1992-01-01',2000,NULL,30);
+
+SELECT * FROM Employee WHERE empno = 8001;
+
+
+
+3. 
+CREATE TABLE EmpAudit (empno INT,
+    ename VARCHAR(50),
+    deleted_at DATETIME
+);
+
+DELIMITER //
+
+CREATE TRIGGER trg_after_delete_emp
+AFTER DELETE ON Employee
+FOR EACH ROW
+BEGIN
+    INSERT INTO EmpAudit VALUES (OLD.empno, OLD.ename, NOW());
+END//
+
+DELIMITER ;
+
+SHOW TRIGGERS LIKE 'Employee';
+
+SELECT * FROM EmpAudit;
+
+DELETE FROM Employee WHERE empno = 7369;
+
+SELECT * FROM EmpAudit;
+
+
+
+4.
+DELIMITER //
+
+CREATE PROCEDURE GetDeptEmployees(IN p_deptno INT)
+BEGIN
+    SELECT empno, ename, job, salary
+    FROM Employee
+    WHERE deptno = p_deptno;
+END//
+
+DELIMITER ;
+
+SHOW PROCEDURE STATUS WHERE Db = DATABASE();
+
+CALL GetDeptEmployees(30);
+
+
+
+5. 
+DELIMITER //
+
+CREATE PROCEDURE GiveRaise(IN p_deptno INT, IN p_percent DECIMAL(5,2), OUT total DECIMAL(10,2))
+BEGIN
+    UPDATE Employee
+    SET salary = salary + (salary * p_percent / 100)
+    WHERE deptno = p_deptno;
+
+    SELECT SUM(salary) INTO total
+    FROM Employee
+    WHERE deptno = p_deptno;
+END//
+
+DELIMITER ;
+
+SHOW PROCEDURE STATUS WHERE Db = DATABASE();
+
+SELECT * FROM Employee WHERE deptno = 30;
+
+CALL GiveRaise(30,10,@total);
+
+SELECT @total;
+
+SELECT * FROM Employee WHERE deptno = 30;
+
+
+
+6.
+DELIMITER //
+
+CREATE PROCEDURE TransferEmployee(IN p_empno INT, IN p_deptno INT)
+BEGIN
+    UPDATE Employee
+    SET deptno = p_deptno
+    WHERE empno = p_empno;
+
+    SELECT e.ename, d.deptname
+    FROM Employee e
+    JOIN Department d ON e.deptno = d.deptno
+    WHERE e.empno = p_empno;
+END//
+
+DELIMITER ;
+
+SHOW PROCEDURE STATUS WHERE Db = DATABASE();
+
+SELECT * FROM Employee WHERE empno = 7499;
+
+CALL TransferEmployee(7499,20);
+
+SELECT * FROM Employee WHERE empno = 7499;

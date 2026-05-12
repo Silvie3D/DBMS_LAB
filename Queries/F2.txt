@@ -1,0 +1,32 @@
+1.
+INSERT INTO Department VALUES
+(10,'Administration','Kochi'),
+(20,'Finance','Hyderabad'),
+(30,'Engineering','Pune');
+SELECT * FROM Department;
+
+2.
+INSERT INTO Employee VALUES
+(101,'Rohit','Manager',NULL,'2017-04-12',70000,5000,10,'rohit101@gmail.com'),
+(102,'Aisha','Analyst',101,'2019-08-25',48000,NULL,20,'aisha102@gmail.com'),
+(103,'Vikram','Clerk',101,'2021-02-10',32000,NULL,20,'vikram103@gmail.com');
+SELECT * FROM Employee;
+
+3.
+INSERT INTO SalaryGrade VALUES
+(1,0,30000),
+(2,30001,60000),
+(3,60001,90000);
+SELECT * FROM SalaryGrade;
+
+4.
+UPDATE Employee SET salary = salary + 5000 WHERE deptno = 20;
+SELECT * FROM Employee;
+
+5.
+UPDATE Employee SET commission = 3000 WHERE empno = 103;
+SELECT * FROM Employee;
+
+6.
+DELETE FROM Employee WHERE salary < 35000;
+SELECT * FROM Employee;
